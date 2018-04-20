@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Events</title>
+    <style>
+        .header h1{
+            display:inline-block;
+        }
+        .header a {
+            margin-left: 25px;
+            display: inline-block;
+        }
+        .wrapper{
+            width: 970px;
+            margin: 0 auto;
+            font-family: arial;
+        }
+        .org-order{
+            padding: 10px;
+            display: inline-block;
+        }
+        .welcome{
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            color:steelblue;
+        }
+        .home-events{
+            border: 1px solid lightcoral;
+        }
+        .away-events{
+            border: 1px solid rebeccapurple;
+        }
+        .top-table{
+            display:inline-block;
+        }
+        .bottom-table{
+            display:inline-block;
+            margin-left: 100px;
+        }
+        .create_org{
+           display: inline-block;
+           vertical-align: top;
+           margin-left: 175px;
+            border: 1px solid black;
+            padding: 5px;
+            width: 200px;
+        }
+        .create_org input, .create_org p, .create_org textarea {
+            display: block;
+            margin-left: 20px;
+        }
+        .btn {
+            margin-top: 15px;
+            border: 2px solid black;
+            background-color: white;
+            color: black;
+            padding: 5px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .success {
+            border-color: #4CAF50;
+            color: green;
+        }
+        .success:hover {
+             background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="welcome">Hi, <%=current_user.first_name%>!</h1>
+        <a href="/logout">Logout!</a>
+    </div>
+    <div class="wrapper">
+        <h2>Here are organizations you can join!</h2>
+      <div class="org-order">
+          <% @org.each do |o|%>
+            <h3><a href="/organizations/<%=o.id%>"><%=o.name%></a></h3>
+                <div class="org-content">
+                    <p>Members: <%=o.memberships.count%></p>
+                    <p><%=o.description%></p>
+                </div>
+           <%end%>
+      </div>
+       
+            <div class="create_org">
+                <h4>Create a new organization</h4>
+                <form action="/organizations/create" method="POST">
+                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
+                    <p>Name: </p><input type="text" name="name">
+                    <p>Description: </p><textarea name="description"></textarea>
+                  <input class="btn success" type="submit" value="Create">
+                </form>
+            </div>
+    </div>
+</body>
+</html>

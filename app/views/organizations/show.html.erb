@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Groups</title>
+    <style>
+        
+        .header a {
+            margin-left: 25px;
+            display: inline-block;
+        }
+        .group-info h1{
+            display: inline-block;
+        }
+        .group-info button{
+            margin-left: 20px;
+            position:absolute;
+            margin-top: 30px;
+        }
+        .group-info button a{
+            display: inline-block;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="/organizations">Dashboard</a>
+        <a href="/logout">Logout!</a>
+    </div>
+    <div class="group-info">
+            <h1><%=@org.name%></h1> 
+                    <%unless @org.memberships.exists?(current_user.id)%>
+                        <button><a href="/organizations/<%=@org.id%>/join" data-method="patch">Join Group</a></button>
+                    <%else%>     
+                        <button><a href="/organizations/<%=@org.id%>/join" data-method="delete">Leave Group</a></button> 
+                    <%end%>   
+            <p><%=@org.description%></p>   
+    </div>
+    <div class="group-info-2">
+        <h3>Created By: <%=@org.user.first_name%> <%=@org.user.last_name%></h3>
+        <h5>Members:</h5>
+            <div class="members">
+                <%@org.memberships.each do |x|%>
+                    <p><%=x.first_name%> <%=x.last_name%></p>
+                <%end%>
+            </div>
+    </div>
+</body>
+</html>
